@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Incluir o CSS do Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Hello</h1>
+        <div class="text-center mb-4">
+            <button class="btn btn-primary" onclick="fetchHeaders()">Fetch Headers</button>
+        </div>
+        <table id="headersTable" class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Header Name</th>
+                    <th>Header Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function fetchHeaders() {
+            fetch('http://localhost:8080/api/example')
+                .then(response => {
+                    let headersTableBody = document.getElementById('headersTable').getElementsByTagName('tbody')[0];
+                    headersTableBody.innerHTML = ''; // Clear previous content
+                    response.headers.forEach((value, name) => {
+                        let row = headersTableBody.insertRow();
+                        let cellName = row.insertCell(0);
+                        let cellValue = row.insertCell(1);
+                        cellName.textContent = name;
+                        cellValue.textContent = value;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching headers:', error);
+                });
+        }
+    </script>
+    <!-- Incluir o JS do Bootstrap e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
