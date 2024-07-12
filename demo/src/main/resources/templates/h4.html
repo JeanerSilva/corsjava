@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exibir Cabeçalho da Resposta</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Conteúdo do Cabeçalho da Resposta</h1>
+    <button id="fetchButton">Buscar Cabeçalho</button>
+    <div id="headerContent"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#fetchButton').click(function() {
+                $.ajax({
+                    url: 'http://localhost:8080/api/example',
+                    type: 'GET',
+                    success: function(data, textStatus, xhr) {
+                        // Obter todos os cabeçalhos
+                        var allHeaders = xhr.getAllResponseHeaders();
+                        var rateLimit = xhr.getResponseHeader('Allow');
+                        
+                        // Exibir todos os cabeçalhos
+                        console.log(allHeaders);
+
+                        if (rateLimit) {
+                            $('#headerContent').text('Allow: ' + rateLimit);
+                        } else {
+                            $('#headerContent').text('Cabeçalho Allow não encontrado.');
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        $('#headerContent').text('Erro: ' + textStatus);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
